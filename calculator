@@ -1,0 +1,37 @@
+import java.io.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.text.ParseException;
+ 
+// Extend HttpServlet class
+public class AgeCalculator extends HttpServlet {
+ 
+   public void doGet(HttpServletRequest req, HttpServletResponse res)
+      throws ServletException, IOException {
+	  ServletOutputStream out=res.getOutputStream();
+	res.setContentType("text/html");
+	  out.println("<html><head><title>AgeCalculator</title></head>");
+	  out.println("<body>");
+	  out.println("<h1>Your Age :</h1>");
+	          String dob = "";
+	 try
+	 {
+		 dob = req.getParameter("dob");
+    
+		  SimpleDateFormat sdf=new SimpleDateFormat("dd-mm-yyyy");
+	  Date udob=sdf.parse(dob);
+	  Date sysdate=new Date();
+	  long ms=System.currentTimeMillis()-udob.getTime();
+	  long age=(long)((long)ms/(1000.0*60*60*24*365));
+	  out.println("your Age is "+age);
+	  }
+	  catch(ParseException e){e.printStackTrace();}
+	  out.println("Your Date of Birth "+dob);
+	 // out.println("your Age is "+age);
+	 out.println("</body></html>");
+	
+   }
+}
+
